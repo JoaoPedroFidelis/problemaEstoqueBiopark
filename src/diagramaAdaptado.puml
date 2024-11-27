@@ -1,0 +1,46 @@
+@startuml
+class EstoqueSolver{
+    {static} -MAX_QUEUE_SIZE: int = 1000
+    {static} -MAX_DEPTH: int = 1000
+    +EstoqueState solve(Estoque estoque)
+    -calculatePriority(EstoqueState state): Double
+    -calculateBound(EstoqueState state, List<Item> items, Double capacity): Double
+}
+
+class EstoqueState{
+    #selectedItems: List<Item>
+    #totalVolume: Double
+    #totalValue: Double
+    +EstoqueState()
+    +EstoqueState(List<Item> selectedItems)
+    +addItem(Item item): void
+    +getTotalVolume(): Double
+    +getTotalValue(): Double
+}
+
+class Estoque{
+    -capacity: Double
+    -items: List<Item>
+    +Estoque(Double capacity, List<Item> items)
+    +getCapacity(): Double
+    +getItems(): List<Item>
+}
+
+class Item{
+    -name: String
+    -volume: Double
+    -value: Double
+    +Item(volume, value)
+    +Item(name, volume, value)
+    +getName(): String
+    +getVolume(): Double
+    +getValue(): Double
+    +apresentar(): void
+}
+
+Estoque "1   " *-- "1" EstoqueSolver : tem
+EstoqueState "*" *-- "1   " EstoqueSolver : tem
+
+Item " *" o-- "1   " Estoque : tem
+Item "*" o-- "1 " EstoqueState : tem
+@enduml
